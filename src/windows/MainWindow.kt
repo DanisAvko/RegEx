@@ -17,18 +17,26 @@ class MainWindow : JFrame() {
     private val textBlock: JEditorPane
     private val btnFind: JButton
     private val btnOpenDialog: JButton
+    private val fieldFileName:JTextField
+    private val fieldSearchString: JTextField
+    private val btnFindEmail:JButton
 
     init {
-
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         minimumSize = Dimension(500, 500)
         textBlock = JEditorPane()
+        fieldFileName = JTextField()
+        fieldSearchString= JTextField()
+        fieldFileName.isEditable = false
+        fieldFileName.background = Color.white
         textBlock.isEditable = false
         btnFind = JButton()
+        btnFindEmail = JButton()
+        btnFindEmail.text = "Найти e-mail"
         btnOpenDialog = JButton()
         btnOpenDialog.text = "Открыть файл"
-        btnFind.text = "Найти e-mail"
-        btnFind.addActionListener { find() }
+        btnFind.text = "Найти"
+        btnFindEmail.addActionListener { find() }
         val scroll = JScrollPane(
             textBlock,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -47,14 +55,14 @@ class MainWindow : JFrame() {
             val result = d.showOpenDialog(null)
             if (result == JFileChooser.APPROVE_OPTION) {
                 textBlock.text = ""
+                fieldFileName.text = d.selectedFile.name
                 val fileInputStream = FileInputStream(d.selectedFile)
                 val bufferedInputStream = BufferedInputStream(fileInputStream, 200)
                 var i = bufferedInputStream.read()
                 do {
-                    textBlock.text+=i.toChar()
+                    textBlock.text += i.toChar()
                     i = bufferedInputStream.read()
                 } while (i != -1)
-
 
 
             }
@@ -67,19 +75,43 @@ class MainWindow : JFrame() {
                 .addGap(4)
                 .addGroup(
                     gl.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addGroup(
+                            gl.createSequentialGroup()
+                                .addComponent(
+                                    fieldFileName
+                                )
+                                .addComponent(
+                                    btnOpenDialog,
+                                    GroupLayout.PREFERRED_SIZE,
+                                    GroupLayout.PREFERRED_SIZE,
+                                    GroupLayout.PREFERRED_SIZE
+                                )
+                                .addGap(4)
+
+                        )
                         .addComponent(scroll, 450, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
+                        .addGroup(
+                            gl.createSequentialGroup()
+                                .addComponent(
+                                    fieldSearchString
+                                )
+                                .addComponent(
+                                    btnFind,
+                                    GroupLayout.PREFERRED_SIZE,
+                                    GroupLayout.PREFERRED_SIZE,
+                                    GroupLayout.PREFERRED_SIZE
+                                )
+                        )
+                        .addGap(4)
                         .addComponent(
-                            btnFind,
+                            btnFindEmail,
                             GroupLayout.PREFERRED_SIZE,
                             GroupLayout.PREFERRED_SIZE,
                             GroupLayout.PREFERRED_SIZE
                         )
-                        .addComponent(
-                            btnOpenDialog,
-                            GroupLayout.PREFERRED_SIZE,
-                            GroupLayout.PREFERRED_SIZE,
-                            GroupLayout.PREFERRED_SIZE
-                        )
+
+
+
 
                 )
                 .addGap(4)
@@ -87,17 +119,38 @@ class MainWindow : JFrame() {
         gl.setVerticalGroup(
             gl.createSequentialGroup()
                 .addGap(4)
+                .addGroup(
+                    gl.createParallelGroup()
+                        .addComponent(
+                            fieldFileName
+                        )
+                        .addComponent(
+                            btnOpenDialog,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE
+                        )
+                )
+                .addGap(4)
                 .addComponent(scroll, 400, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                 .addGap(4)
-                .addComponent(
-                    btnOpenDialog,
-                    GroupLayout.PREFERRED_SIZE,
-                    GroupLayout.PREFERRED_SIZE,
-                    GroupLayout.PREFERRED_SIZE
+                .addGap(4)
+                .addGroup(
+                    gl.createParallelGroup()
+                        .addComponent(
+                            fieldSearchString
+                        )
+                        .addComponent(
+                            btnFind,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE,
+                            GroupLayout.PREFERRED_SIZE
+                        )
+
                 )
                 .addGap(4)
                 .addComponent(
-                    btnFind,
+                    btnFindEmail,
                     GroupLayout.PREFERRED_SIZE,
                     GroupLayout.PREFERRED_SIZE,
                     GroupLayout.PREFERRED_SIZE
