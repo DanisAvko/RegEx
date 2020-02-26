@@ -36,7 +36,9 @@ class MainWindow : JFrame() {
         btnOpenDialog = JButton()
         btnOpenDialog.text = "Открыть файл"
         btnFind.text = "Найти"
-        btnFindEmail.addActionListener { find() }
+        btnFindEmail.addActionListener {
+            find("([a-z0-9_\\.-]+)@([a-z0-9_\\.-]+)\\.([a-z\\.]{2,6})")
+        }
         val scroll = JScrollPane(
             textBlock,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -95,6 +97,7 @@ class MainWindow : JFrame() {
                                 .addComponent(
                                     fieldSearchString
                                 )
+                                .addGap(4)
                                 .addComponent(
                                     btnFind,
                                     GroupLayout.PREFERRED_SIZE,
@@ -161,9 +164,9 @@ class MainWindow : JFrame() {
         pack()
     }
 
-    private fun find() {
+    private fun find(str:String) {
         val rh = RegexHelper()
-        rh.regex = "([a-z0-9_\\.-]+)@([a-z0-9_\\.-]+)\\.([a-z\\.]{2,6})"
+        rh.regex = str
         var txt = textBlock.text
         txt = txt.replace("\r", "")
         val result = rh.findIn(txt)
