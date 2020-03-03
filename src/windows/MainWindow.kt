@@ -29,8 +29,16 @@ class MainWindow : JFrame() {
         fieldSearchString= JTextField()
         fieldFileName.isEditable = false
         fieldFileName.background = Color.white
-        textBlock.isEditable = false
         btnFind = JButton()
+        btnFind.addActionListener{
+            val regex = Regex("[0-9~`!@#$%^&*+=.]")
+            if (regex.containsMatchIn("^["+fieldFileName.text+"]$")){
+                find(fieldSearchString.text)
+            } else {
+                find("([a-zA-Zа-яА-ЯёЁ]*)"+fieldSearchString.text+"([a-zA-Zа-яА-ЯёЁ]*)")
+            }
+
+        }
         btnFindEmail = JButton()
         btnFindEmail.text = "Найти e-mail"
         btnOpenDialog = JButton()
@@ -82,6 +90,7 @@ class MainWindow : JFrame() {
                                 .addComponent(
                                     fieldFileName
                                 )
+                                .addGap(4)
                                 .addComponent(
                                     btnOpenDialog,
                                     GroupLayout.PREFERRED_SIZE,
